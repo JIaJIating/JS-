@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Object</title>  
+</head>
+<body>
+	
+</body>
+<script>
+// 第五章 引用类型
+// 5.1 Object类型
+// 5.1.1创建一个Object对象
+// 使用new操作符+Object构造函数创建
+// var person=new Object();
+// person.name='jkt';
+// person.age='20';
+// alert(person.age);
+// 使用字面量方式创建
+// var person={
+// 	name:'jkt',
+// 	age:20
+// };
+// 使用字面量方式创建时，属性名也可以使用字符串
+// var person={
+// 	'name':'jkt',
+// 	'age':20
+// };
+// 
+// var person={};    与new Object()相同
+// person.name="jkt";
+// person.age=20;
+// 访问对象属性
+// alert(person.name);
+// alert(person['name']);
+function displayInfo(args){
+	var output = "";
+	if(typeof args.name == "string"){
+		output += "Name:" +args.name+"\n";
+	}
+	if(typeof args.age == "number"){
+		output += "Age:" +args.age+"\n";
+	}
+	alert(output);
+}
+displayInfo({
+	name:"jkt",
+	age:20
+});
+displayInfo({
+	name:"qianxi"
+});
+</script>
+</html>
