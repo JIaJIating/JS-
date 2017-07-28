@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Date</title>  
+</head>
+<body>
+
+</body>
+<script>
+// 5.3.1
+// 创建一个Date对象
+// var mydate=new Date();
+// (1)Date.parse()方法
+// var someDate=new Date(Date.parse("May 25,2004"));
+// alert(someDate);              //Tue May 25 2004 00:00:00 GMT+0800
+// 
+// Date构造函数会模仿Date.parse()，在后台调用Date.parse()方法
+// var someDate=new Date("May 25,2004");      
+// alert(someDate);      //Tue May 25 2004 00:00:00 GMT+0800
+// (2)Date.UTC()方法
+// var newDate=new Date(Date.UTC(2000,0)); 月份从0开始
+// alert(newDate);          //Sat Jan 01 2000 08:00:00 GMT+080 （即2000年1月1日午夜零时）
+// 
+// var newDate=new Date(Date.UTC(2005,4,5,17,55,55)); 
+// alert(newDate);  //Fri May 06 2005 01:55:55 GMT+0800
+// 
+// Date构造函数也会模仿Date.UTC()，不同的是：日期是基于本地时区创建（不是根据GMT）。
+// 但Date构造函数接受的参数仍与Date.UTC()相同。
+// 如果第一个参数是数值，Date构造函数会假设该值是年份，第二个是月份
+// var newDate=new Date(2005,4,5,17,55,55); 
+// alert(newDate);  //Thu May 05 2005 17:55:55 GMT+0800
+// 
+// var newDate=new Date(2000,0); 
+// alert(newDate);  //Sat Jan 01 2000 00:00:00 GMT+0800
+// Date.now()方法：返回表示调用这个方法时的日期和时间的毫秒数
+// var start=Date.now();
+// //调用函数
+// doSomething();
+// var stop=Date.now(),
+// 	result=stop-start;
+// 	
+// 5.3.2继承的方法：
+// toLocaleString() 时间格式包含AM或PM,但不包含时区信息(具体格式因浏览器而异)
+// toString() 返回带有时区信息的日期和时间（小时范围0-23）
+// valueOf() 返回的不是字符串而是毫秒数,所以用来比较日期值
+// var date1=new Date(2016,0,1);    //1月1号
+// var date2=new Date(2016,1,2);    //2月1号
+// alert(date1<date2);              //true
+// alert(date1>date2);              //false
+// 
+// 5.3.3日期格式化方法（因浏览器而异）
+// toDateString()  以特定于实现的格式显示星期几、月、日、年
+// toTimeString()   以特定于实现的格式显示时、分、秒、时区
+// toLocaleDateString()      以特定于地区的格式显示星期几、月、日、年
+// toLocaleTimeString()       以特定于实现的格式显示时、分、秒
+// toUTCString()                  以特定于实现的格式完整的UTC日期
+// 
+// 5.3.4 Date类型的方法
+// getTime();
+// getFullYear();
+// getMonth(); 0-11
+// getDate();    1-31
+// getDay();    星期几，返回的是数字0-6
+// getHours();
+// getMinutes();
+// getSeconds();
+// getMillseconds();
+// 和set一系列
+
+
+
+
+
+
+ </script>
+</html>
