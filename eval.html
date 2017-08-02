@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>eval()</title>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+	<p>当解析发现代码中调用eval()方法，它会将传入的参数当作实际的ECMAScript语句来解析，然后把执行结果插入到原位置。</p>
+	<p>通过eval()执行的代码被认为是包含该次调用的执行环境的一部分，<b>因此</b>被执行的代码具有与该执行环境相同的作用域链。也就是说通过eval（）执行的代码可以引用在包含环境中定义的变量</p>
+
+</body>
+<script>
+// eval("alert('hi!')");  等价于 alert('alert(hi!)');
+// 
+// var msg="hello world!";   变量mag是在eval()调用的环境外定义的 
+// eval("alert(msg)");        仍可以显示//  'hello world!'
+// 
+// eval("function sayHi(){alert('hi');}");
+// sayHi();
+// 
+// 在eval()中创建的任何变量或者函数都不会被提升，只有在eval()执行的时候创建。
+// eval("var info='hello';");
+// alert(info);
+// 
+// 严格模式下，在外部访问不到eval()中创建的变量或函数，所以前面两个例子都会导致错误。
+// 同样，在严格模式下，为eval赋值也会导致错误，如下：
+// "use strict"
+// eval="hi";  //SyntaxError: 'eval' can't be defined or assigned to in strict mode code
+</script>
+</html>
