@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>window和global</title>
+</head>
+<body>
+<p>ES5明确禁止给undefined NaN Infinity赋值（非严格模式也是会导致错误的）</p>
+</body>
+<script>
+	// var color="red";
+	// function sayColor(){
+	// 	alert(window.color);
+	// }
+	// // sayColor();
+	// window.sayColor();
+	// 
+	// 另外一种取得Global对象的方法：通过简单返回this来取得Global对象。在任何执行环境下都是可行的
+	var global=function(){
+		return this;
+	}();
+	// 创建一个立即调用的函数表达式，返回this的值。当没有给定函数明确指定this的值，this的值就等于Global对象。
+</script>
+</html>
