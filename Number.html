@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Number</title>
+</head>
+<body>
+
+</body>
+<script>
+	var num=10;
+	// alert(num.toString());       // 默认返回10进制数值的字符串形式：‘10’
+	// alert(num.toString(2));      // 返回2进制数值的字符串形式：‘1010’
+	// alert(num.toString(8));      // 返回8进制数值的字符串形式：‘12’
+	// alert(num.toString(10));     // 返回10进制数值的字符串形式：‘10’
+	// alert(num.toString(16));     // 返回16进制数值的字符串形式：‘a’
+
+	// alert(num.toExponential());     //返回以指数表示法表示的数值的字符串形式：‘1e+1’
+	// alert(num.toExponential(1));    //1.0e+1  参数指定输出结果中的小数位数
+	
+	// alert(num.toFixed(2));   //按指定的小数位数的返回数值的字符串形式：‘10.00’
+	// var num=10.005;
+	// alert(num.toFixed(2));   //自动舍入：‘10.01’  但因浏览器的舍入规则而异
+	
+	// var num=99;
+	// alert(num.toPrecision());   // ‘99’  按最合适的方法返回  
+	// alert(num.toPrecision(1));   // ‘1e+2’  以一位数来表示
+	// alert(num.toPrecision(2));   // ‘99’  以两位数来表示
+	// alert(num.toPrecision(3));   // ‘99.0’  以三位数来表示
+	
+	var numObject=new Number(10);    //所有基本包装类型的对象都会被转换为布尔值true 
+	var numValue=10;
+	alert(typeof numObject);     // 'object'
+	alert(typeof numValue);      //'number'
+	alert(numObject instanceof Number);    //true
+	alert(numValue instanceof Number);     //false
+</script>
+</html>
