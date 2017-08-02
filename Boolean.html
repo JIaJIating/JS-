@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Boolean</title>
+</head>
+<body>
+	
+</body>
+<script>
+// 所有基本包装类型的对象都会被转换为布尔值true(即布尔表达式中的所有对象多会被转换为true)
+var fobject=new Boolean(false);
+var result=fobject&&true;
+alert(result);               //true
+// 
+var fvalue=false;
+var result=fvalue&&true;
+alert(result);                  //false
+// 第二个区别
+alert(typeof fobject);           //object
+alert(typeof fvalue);            //boolean
+alert(fobject instanceof Boolean);          //true
+alert(fvalue instanceof Boolean);           //false
+// 建议永远不要使用Boolean对象
+</script> 
+</html>
