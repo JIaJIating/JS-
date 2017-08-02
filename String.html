@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>String</title>
+</head>
+<body>
+
+</body>
+<script>
+	// var str="hello world!";
+	// alert(str.length);   //12
+	
+	// 字符方法
+	// var strValue="hello,liyinhe!";
+	// alert(strValue.charAt(1));     // 'e'  返回位置1上的单个字符
+	// alert(strValue.charCodeAt(1));  //'101'  返回位置1上的那个字符的字符编码
+	
+	// 字符串操作方法：都不改变原字符串
+	// var str1="hello ";
+	// var str2=str1.concat('jkt');     // 一般还是用+里连接字符串
+	// alert(str2);         //‘hello jkt’
+	// alert(str1);         //‘hello ’ 不改变原字符串
+	// 
+	// var string="hello world!";
+	// alert(string.slice(3));     //'lo world!'
+	// alert(string.substring(3));    //'lo world!'
+	// alert(string.substr(3));        //'lo world!'
+	// alert(string.slice(3,7));      //'lo w'  从位置3截取到位置7，不包括位置7上的值
+	// alert(string.substring(3，7));  //'lo w'  从位置3截取到位置7，不包括位置7上的值
+	// alert(string.substr(3,7));      // 'lo worl' 从位置3开始截取7个
+	// 如果传的参数是负值
+	// alert(string.slice(-3)); //'ld!' 将负值(-3)与字符串长度(12)相加=9,所以从位置9开始取
+	// alert(string.substring(-3));  //'hello world!'  substring()会将父值转换为0
+	// alert(string.substr(-3)); //'ld!' 将负值(-3)与字符串长度(12)相加=9,所以从位置9开始取
+	// alert(string.slice(3,-4));  //'lo wo'   将第二个参数转为8（-4+12）
+	// alert(string.substring(3,-4));  //'hel'将第二个参数转为0 (3,0)----(0,3) 
+	// alert(string.substr(3,-4)); //'' 第二个参数转为0,从位置3处截取0个长度,所以为空字符串
+	
+	// 字符串位置方法
+	// var str="hello world";
+	// alert(str.indexOf('o'));   //4 从头开始向后搜索
+	// alert(str.lastIndexOf('o'));   //7  从末尾开始向前搜索
+	//第二个参数表示从字符串中的哪个位置开始搜索
+	// alert(str.indexOf('o',6));    //7 从位置6开始向后搜索
+	// alert(str.lastIndexOf('o',5));   //4 从位置5开始向前搜索
+	// 通过循环调用这两个方法，可以找到所有匹配的字符串
+	// var strValue="";
+
+
+
+
+	// trim():创建字符串副本，删除前置及后置的所有空格，再返回结果，
+	// var str =" hello world ";
+	// alert(str.trim());   // "hello world"  返回的是副本
+	// alert(str);         // " hello world "  原字符串没有改变
+	
+	// 大小写转换：toLowerCase()   toUpperCase()
+	
+	// 字符串的模式匹配方法
+	// var text='cat, bat, sat, fat';
+	// var pattern=/.at/;
+	// var matches=text.match(pattern);       //match()方法返回一个数组
+	// alert(matches.index);       //0
+	// alert(matches[0]);           //'cat'
+	// alert(pattern.lastIndex);      //0
+
+	// var text='cat, bat, sat, fat';
+ 	// var pos=text.search(/at/);   //"at"在字符串中第一次出现的位置
+ 	// search()方法始终是从字符串开头向后查找，只接受一个参数
+ 	// alert(pos);          // 1
+ 	
+ 	// var text='cat, bat, sat, fat';
+ 	// var result=text.replace('at','ond');     // 后面的替换前面的
+ 	// alert(result);           // cond, bat, sat, fat
+ 	// result =text.replace(/at/g,'ond');
+ 	// alert(result);            // cond, bond, sond, fond 
+
+ 	// split()第二个参数指定返回数组的大小
+ 	var colors='red,blue,green,black';
+ 	var color1=colors.split(',');
+ 	var color2=colors.split(',',2);
+ 	var color3=colors.split(/[^\,]+/);
+ 	alert(color1);       // red,blue,green,black  按（字符串里面有的）逗号分隔
+ 	alert(color2);        // red,blue  按逗号分隔后，取2个值
+ 	alert(color3);        // ,,,,,,,
+
+
+	// localeCompare():比较两个字符串
+	// var str="yellow";
+	// alert(str.localeCompare('black'));   //1
+	// alert(str.localeCompare('yellow'));   //0
+	// alert(str.localeCompare('zoo'));   //-1
+    // 最好如下使用
+    // var str="yellow";
+    // function order(val){
+    // 	var result=str.localeCompare(val);
+    // 	if(result<0){
+    // 		alert('yellow comes before '+val);
+    // 	}else if(result>0){
+    // 		alert('yellow comes after '+val);
+    // 	}else{
+    // 		alert("eaual");
+    // 	}
+    // }
+    // order('black');         //yellow comes after black  >0
+    // order('yellow');        //equal
+    // order('zoo');         //yellow comes before zoo
+    // 
+	// String构造函数有一个静态防方法：fromCharCode()
+	// 它将接收的一个或多个字符编码转换为一个字符串
+	// alert(String.fromCharCode(101, 104,111));   //'eho'
+
+
+</script>
+</html>
