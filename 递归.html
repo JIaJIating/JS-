@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>递归</title>
+</head>
+<body>
+<p>递归函数是一个函数通过名字调用自身的情况下构成的</p>
+</body>
+<script>
+// function factorial(num){
+// 	if(num<=1){
+// 		return (1);
+// 	}else{
+// 		return num*factorial(num-1);
+// 	}
+// }                         //如果没有18,19行则可以正常运行
+// var anotherFac=factorial;
+// factorial=null;  
+// alert(anotherFac(4));     //TypeError: factorial is not a function
+//解决办法:arguments.callee是一个指向正在执行函数的指针 
+// function factorial(num){
+// 	if(num<=1){
+// 		return (1);
+// 	}else{
+// 		return num*arguments.callee(num-1);
+// 	}
+// }                         //如果没有18,19行则可以正常运行
+// var anotherFac=factorial;
+// factorial=null;  
+// alert(anotherFac(4));     //24
+// 严格模式下，不能通过脚本访问该属性会出现错误
+// 但是可以使用命名函数表达式来达成相同的效果
+var factorial=(function f(num){
+	if(num<=1){
+		return 1;
+	}else {
+		return num*f(num-1);   //函数名字f仍然有效
+	}
+});
+var anotherFac=factorial;
+factorial=null;  
+alert(anotherFac(4));     
+</script>
+</html>
