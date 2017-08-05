@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>闭包中this对象与内存泄漏</title>
+    <link rel="stylesheet" href="">
+</head>
+<body>	
+<p>匿名函数的执行环境具有全局性，其this指向window</p>
+</body>
+<script>
+// 没有闭包
+// var name="window";
+// var obj={
+// 	name:'my obj',
+// 	nameFunc:function(){
+// 		return this.name;
+// 	}
+// }
+// alert(obj.nameFunc());            //'my obj'
+// 
+// var name="window";
+// var obj={
+// 	name:'my obj',
+// 	nameFunc:function(){
+// 		return function(){
+// 			return this.name;      //闭包访问不到obj对象
+// 		};
+// 	}
+// };
+// alert(obj.nameFunc() ());      //'window'
+
+var name="window";
+var obj={
+	name:'my obj',
+	nameFunc:function(){
+		var that=this;
+		return function(){
+			return that.name;
+		};
+	}
+};
+alert(obj.nameFunc()());        //'my obj'
+that=null;
+// 闭包的用途：可以读取函数内部的变量、让这些变量始终保存在内存中
+// 
+// 内存泄漏
+function f(){
+	var ele=document.getElementById('elem');
+	//只要匿名函数存在，element的引用次数至少1次，其内存永远不会被回收
+	element.onclick=function(){        
+		alert(element.id);
+	};
+}
+// 解决：
+function f(){
+	var ele=document.getElementById('elem');
+	var id=element.id;       //消除了循环引用
+	element.onclick=function(){
+		alert(id);
+	} 
+	element=null;       //解除了对dom对象的引用
+}
+</script>
+</html>
