@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>特权方法</title>
+</head>
+<body>
+<p>任何在函数中定义的变量都可认为是私有变量</p>
+<p>私有变量包括：函数的参数、局部变量、在函数内部定义的其他函数</p>
+</body>
+<script>
+
+//在对象上创建特权方法：
+//方法一：在构造函数中定义特权方法，基本模式如下：
+// function MyObject(){
+// 	//私有变量和私有函数
+// 	var privateVariable=10;
+// 	function privateFunction(){
+// 		return false;
+// 	}
+// 	//特权方法
+// 	this.publicMethod=function(){
+// 		privateVariable++;
+// 		return privateFunction();
+// 	};
+// }
+// 变量privateVariable和函数privateFunction()只能通过特权方法publicMethod()来访问
+// var object=new MyObject();
+//在创建MyObject的实例后，除了publicMethod(),没有办法可以直接访问privateVariable和privateFunction()
+// 具体例子：俩个特权方法getName()和setName()都可以在构造函数外部使用，且都有权访问私有变量name（一般在函数外部，没有任何办法访问name）
+// function Person(name){
+// 	this.getName=function(){
+// 		return name;
+// 	};
+// 	this.setName=function (value){
+// 		name=value;
+// 	};
+// }
+// var person=new Person('jkt');
+// alert(person.getName());             //'jkt'
+// person.setName('lele');
+// alert(person.getName());           //'lele'
+// 缺点：构造函数模式针对每个实例都会创建一组同样的新方法
+// 用静态私有变量来实现特权访问可以避免这个问题
+// ：在私有作用域中创建特权方法，基本模式如下：
+// (function(){
+// 	//私有变量和私有函数
+// 	var privateVariable=10;
+// 	function privateFunction(){
+// 		return false;
+// 	}
+// 	//构造函数
+// 	MyObject=function(){   //没有var的函数表达式创建全局变量（函数声明只能创建局部函数）
+// 	};
+// 	// 公有/特权方法
+// 	MyObject.prototype.publicMethod=function(){         //公有方法是在原型上定义的
+// 		privateVariable++;
+// 		return privateFunction();
+// 	};
+// })();
+// 该模式：私有变量和函数是由实例共享的，由于公有方法是在原型上定义的，所有实例都使用同一个函数
+// 该模式中的特权方法，作为一个闭包，总是保存着对包含作用域的引用
+(function(){
+	var name="";
+	// 构造函数
+	Person=function(value){
+		name=value;
+	};
+	// 特权方法
+	Person.prototype.getName=function(){
+		return name;
+	};
+	Person.prototype.setName=function(value){
+		name=value;		
+	};
+})();
+var person1=new Person('jkt');
+alert(person1.getName());       //'jkt'
+person1.setName('lele');
+alert(person1.getName());          //'lele'
+
+var person2=new Person('tt');
+alert(person1.getName());    //'tt' 调用setName()或新建一个Person实例都会赋予name属性一个新值
+alert(person2.getName());  //'tt'
+// 优点：增加代码复用性
+// 缺点：每个实例都没有自己的私有变量
+
+
+
+
+
+
+
+</script>
+</html>
