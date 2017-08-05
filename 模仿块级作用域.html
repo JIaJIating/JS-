@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>私有作用域</title>
+</head>
+<body>
+
+</body>
+<script>
+// 1.变量i是定义在outputNumbers()活动对象中的，因此从有定义开始，在函数内部可以随处访问
+// function outputNumbers(count){
+// 	// alert(i);     //undefined   变量还未定义，所以访问不到
+// 	for(var i=0;i<count;i++){
+// 		alert(i);     //   0/1/2/3/4
+// 	}
+// 	alert(i);           //   5
+// }
+// outputNumbers(5);
+
+// 2.js对后续声明视而不见
+// function outputNumbers(count){
+// 	for(var i=0;i<count;i++){
+// 		alert(i);     //   0/1/2/3/4
+// 	}
+// 	var i;
+// 	alert(i);           //   5
+// }
+// outputNumbers(5);
+
+// 3.但会执行后续声明中的变量初始化
+// function outputNumbers(count){
+// 	for(var i=0;i<count;i++){
+// 		alert(i);     //   0/1/2/3/4
+// 	}
+// 	var i=6
+// 	alert(i);           //   6
+// }
+// outputNumbers(5);
+
+// 为了避免3的问题，用匿名函数来模仿块级作用域(私有作用域)。语法如下：
+// (function(){
+// 	这里是块级作用域
+// })();   //定义并立即调用了一个匿名函数
+
+// function(){
+// 	这里是块级作用域
+// }();   //出错 ，函数声明后不可以跟圆括号，函数表达式后面可以跟圆括号
+
+// 如果临时需要一些变量，就可以用私有作用域
+// function outputNumber(count){
+// 	(function(){
+// 		for(var i=0;i<count;i++){
+// 			alert(i);
+// 		}
+// 	})();
+// 	alert(i);     //error  变量i在for循环结束后已经被销毁
+// }
+// outputNumbers(5);
+
+// 该方法用来限制向全局作用域中添加过多的变量和函数。多人开发时，很容易命名冲突，所以创建私有作用域，每个开发人员可以使用自己的变量，也不会搞乱全局作用域。例如：
+(function(){
+	var now=new Date();
+	if(now.getMonth()==0 && now.getDate()==1){  //1月1日
+		alert('happy new year!');
+	}
+})();
+// 也减少了闭包占用内存的问题，因为没有指向匿名函数的引用。只要函数执行完毕，就可以立即销毁其作用域链。 
+
+
+
+
+
+
+
+</script>
+</html>
