@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>模块模式</title>
+</head>
+<body>
+<div id="content">
+	<p>this is a <strong>paragraph</strong> with a list following it.</p>
+	<ul>
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+	</ul>
+</div>
+</body>
+<script>
+// innerHTML属性
+// var div=document.getElementById('content');
+//读模式
+// var result=div.innerHTML;
+// alert(result);    //9-14行
+// 
+// 写模式
+// 设置值为文本
+// div.innerHTML="hello world!"; //将div里面的所有都换成了‘hello world!’
+// 设置值为包含HTML的字符串值
+// div.innerHTML="hello & welcome, <b>\"reader\"!</b>"; //将div里面的所有都换成了‘hello & welcome, "reader"!’
+// 插入script脚本
+// <script>元素被认为是“无作用域元素”，所以不会执行插入的脚本，除非满足两个条件
+// 给<script>元素指定defer属性
+// <script>元素必须位于“有作用域的元素”之后
+// div.innerHTML="<script defer>alert('hi');<\/script>";  //无效
+// 1 div.innerHTML="_<script defer>alert('hi');<\/script>"; //有效
+// 2 div.innerHTML="<div>&nbsp;</div><script defer>alert('hi');<\/script>";  //有效
+// 为了不影响页面布局，得移除这个节点
+// 3 div.innerHTML="<input type=\"hidden\"><script defer>alert('hi');<\/script>";   //有效
+// 隐藏的<input>域，不影响页面布局，首选
+// 插入<style>元素  
+// div.innerHTML="<style type=\"text/css\">body{background:red}</style>";
+//但IE8及之前的版本中，<style>元素也是一个没有作用域的元素，需要前置作用域 
+//  div.innerHTML="_<style type=\"text/css\">body{background:red}</style>";
+
+// outerHTML属性
+// 读模式
+// var div=document.getElementById('content');
+// alert(div.outerHTML);  //返回8-15行
+// 设置值
+// div.outerHTML="this is a paragraph";
+// 
+// insertAdjacentHTML()方法：
+// 作为前一个同辈元素插入
+// var div=document.getElementById('content');
+div.insertAdjacentHTML('beforebegin','<p>this is a paragraph');
+// 作为后一个同辈元素插入
+// var div=document.getElementById('content');
+div.insertAdjacentHTML('afterend','<p>this is a paragraph');
+// 作为第一个子元素插入
+// var div=document.getElementById('content');
+div.insertAdjacentHTML('afterbegin','<p>this is a paragraph');
+// 作为最后一个子元素插入
+// var div=document.getElementById('content');
+div.insertAdjacentHTML('beforeend','<p>this is a paragraph');
+
+// 避免频繁操作，占用内存
+
+</script> 
+</html>
