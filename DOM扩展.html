@@ -5,16 +5,15 @@
      <title>事件</title>
  </head>
  <body>
- <input type="button" id="myByn" value="dian">
+ <input type="button" id="myBtn" value="Click Me ">
  </body>
  <script>
 //HTML事件处理程序
-	// <input type="button" value="Click" onclick="alert('hi!')">
+	<input type="button" value="Click" onclick="alert('hi!')">
 	// 输出"click"
-	// <input type="button" value="Click Me" onclick="alert(event.type)">
-	// 输出"点我一下"
+	<input type="button" value="Click Me" onclick="alert(event.type)">
 	// 在这个函数内部，this值等于事件的目标元素	
-	// 
+	
 	// 在页面其他地方调用
 	// <script type="text/javascript">
 	// function info(){
@@ -23,52 +22,85 @@
 	// </script>
 	// <input type="button" value="Click Me" onclick="info()">
 // DOM0级事件处理程序
-	// var btn=document.getElementById('btn');
-	// btn.onclick=function(){
-	// 	alert(this.id);
-	// }
-	// btn.onclick=null; //删除事件处理程序
+	var btn=document.getElementById('myBtn');
+	btn.onclick=function(){
+		alert(this.id);
+	}
+	btn.onclick=null; //删除事件处理程序
 // DOM2级事件处理程序
-	// var btn=document.getElementById('btn');
-	// btn.addEventListener("click",function(){
-	// 	alert(this.id);
-	// },false);
-	// btn.addEventListener("click",function(){
-	// 	alert('hi');
-	// },false);
+	var btn=document.getElementById('myBtn');
+	btn.addEventListener("click",function(){
+		alert(this.id);
+	},false);
+	btn.addEventListener("click",function(){
+		alert('hi');
+	},false);
 	// 通过该方法添加的只能用removeEventListener()来移除，但传入的参数一定要相同
 	// 所以，添加的第二个参数是匿名函数将无法移除
-	// var btn=document.getElementById('btn');
-	// btn.addEventListener("click",function(){
-	// 	alert(this.id);
-	// },false);
-	// btn.removeEventListener("click",function(){      //没用，此处的匿名函数是一个新的函数
-	// 	alert(this.id);
-	// },false);
+	var btn=document.getElementById('myBtn');
+	btn.addEventListener("click",function(){
+		alert(this.id);
+	},false);
+	btn.removeEventListener("click",function(){      //没用，此处的匿名函数是一个新的函数
+		alert(this.id);
+	},false);
 	// 正确方法：
-	// var btn=document.getElementById('btn');
-	// var fun=function(){
-	// 	alert(this.id);
-	// }
-	// btn.addEventListener("click",fun,false);
-	// btn.removeEventListener("click",fun,false);
+	var btn=document.getElementById('myBtn');
+	var fun=function(){
+		alert(this.id);
+	}
+	btn.addEventListener("click",fun,false);
+	btn.removeEventListener("click",fun,false);
 // IE事件处理程序(支持的浏览器只有IE和Opera)
-	// var btn=document.getElementById('myByn');
-	// btn.attachEvent("onclick",function(){
-	// 	// alert(this.id);          //该程序在全局作用域内运行，所以这里没有
-	// 	alert(this===window);
-	// });
-	// // 添加多个
-	// btn.attachEvent("onclick",function(){
-	// 	alert("hi!");          
-	// });
-	// // 移除：注意匿名函数的问题
-	// var btn=document.getElementById('myByn');
-	// var f=function(){
-	// 	alert("hi!"); 
-	// };
-	// btn.attachEvent("onclick",f);
-	// btn.detachEvent("onclick",f);
+	var btn=document.getElementById('myBtn');
+	// 两个参数：事件处理程序名、事件处理程序函数
+	btn.attachEvent("onclick",function(){
+		// alert(this.id);          //该程序在全局作用域内运行，所以这里没有
+		alert(this===window);
+	});
+	// 添加多个
+	btn.attachEvent("onclick",function(){
+		alert("hi!");          
+	});
+	// 移除：注意匿名函数的问题
+	var btn=document.getElementById('myBtn');
+	var f=function(){
+		alert("hi!"); 
+	};
+	btn.attachEvent("onclick",f);
+	btn.detachEvent("onclick",f);
 // 跨浏览器的事件处理程序
+	var EventUtil={
+		//三个参数：要操作的元素、事件名、事件处理程序函数
+		addHandler:function(element,type,handler){
+			// 先检测传入的元素中是否存在DOM2级方法
+			if(element.addEventListener) {
+				element.addEventListener(type,handler,false);
+			// 再检测传入的元素中是否存在IE方法
+			}else if(element.attachEvent){
+				element.attachEvent("on"+type,handler);
+			// 最后检测传入的元素中是否存在DOM0级方法(一般不会执行这里的代码)
+			}else{
+				element["on"+type]=handler;
+			}
+		},
+		removeHandler:function(element,type,handler){
+			if(element.removeEventListener) {
+				element.removeEventListener(type,handler,false);
+			}else if(element.detachEvent){
+				element.detachEvent("on"+type,handler);
+			}else{
+				element["on"+type]=null;
+			}
+		}
+	};
+	// 具体实例
+	var btn=document.getElementById('myBtn');
+	var handler=function(){
+		alert('hello');
+	};
+	EventUtil.addHandler(btn,"click",handler,);
+	// 省略其他代码
+	EventUtil.removeHandler(btn,"click",handler,);
  </script>
  </html>
