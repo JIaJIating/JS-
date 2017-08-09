@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>事件类型</title>
+</head>
+<body>
+<div>
+	<ul id="myLinks">
+	 	<li id="goWhere">some where</li>
+	 	<li id="doThing">some things</li>
+	 	<li id="sayHi">say hi</li>
+	 </ul> 
+</div>
+<!-- 为了避免双击，单击按钮后把按钮移除并替换成一条消息 -->
+<div id="myDiv">
+ 	<input type="button" value="Click Me" id="myBtn">
+</div>
+</body>
+<script>
+// 定义EventUtil这个对象
+var EventUtil={
+	addHandler: function(element,type,handler){
+		if(element.addEventListener){
+			element.addEventListener(type,handler,false);
+		}else if(element.attachEvent){
+			element.attachEvent("on"+type,handler);
+		}else{
+			elment["on"+type]=handler;
+		}
+	},
+	// 为该类添加方法
+	getEvent:function(event){
+		return event?event:window.event;
+	},
+	getTarget:function(event){
+		return event.target||event.srcElement;
+	},
+	// 取消默认方法
+	preventDefault:function(event){
+		if(event.preventDefault){
+			event.preventDefault();
+		}else{
+			event.returnValue=false;
+		}
+	},
+	removeHandler: function(element,type,handler){
+		if(element.removeEventListener){
+			element.removeEventListener(type,handler,false);
+		}else if(element.detachEvent){
+			element.detachEvent("on"+type,handler);
+		}else{
+			elment["on"+type]=null;
+		}
+	},
+	// 阻止冒泡或捕获
+	stopPropagation:function(event){
+		if(event.stopPropagation){
+			event.stopPropagation;
+		}else{
+			event.cancelBubble=true;
+		}
+	}
+};
+// 比较麻烦的做法
+// var item1=document.getElementById('goWhere');
+// var item2=document.getElementById('doThing');
+// var item3=document.getElementById('sayHi');
+// EventUtil.addHandler(item1,"click",function(event){
+// 	location.href="http://www.baidu.com";
+// });
+// EventUtil.addHandler(item2,"click",function(event){
+// 	document.title="改变title";
+// });
+// EventUtil.addHandler(item3,"click",function(event){
+// 	alert('hi!');
+// });
+// 事件委托：在DOM树中尽量最高的层次上添加一个事件处理程序
+// var list=document.getElementById('myLinks');
+// EventUtil.addHandler(list,"click",function(event){
+// 	event=EventUtil.getEvent(event);
+// 	var target=EventUtil.getTarget(event);
+// 	switch(target.id){
+// 		case "goWhere":
+// 			location.href="http://www.baidu.com";
+// 			break;
+// 		case "doThing":
+// 			document.title="改变title";
+// 			break;
+// 		case "sayHi":
+// 			alert('hi!');
+// 			break;
+// 	}
+// });
+// 
+// 移除事件处理程序：内存中留有过时不用的“空事件处理程序”
+	// 情况一：带有事件处理程序的元素被innerHTML删除了，那之前添加到元素中的事件处理程序很可能无法被当成垃圾回收
+	var btn=document.getElementById('myBtn');
+
+	btn.onclick=function(){
+		// 执行某些操作
+		document.getElementById('myDiv').innerHTML="change content";   //有问题
+	};
+	// btn按钮被移除了，但事件处理程序还和按钮保持着引用关系
+	// 所以，当知道某个元素即将被移除，最好手工移除事件处理程序，如下例：
+	var btn=document.getElementById('myBtn');
+
+	btn.onclick=function(){
+		// 执行某些操作
+		btn.onclick=null;   //移除事件处理程序
+		document.getElementById('myDiv').innerHTML="change content";   //有问题
+	};
+	// 用事件委托也可以解决：把事件处理程序不添加给该元素，而是指定给较高层次的元素
+	// 情况二：卸载页面的时候，如果在页面卸载之前没有清理干净事件处理程序，他们就会滞留在内存中
+	// 每次加载完页面再卸载页面时（可能是在两个页面间切换，也可以是刷新页面。
+	// 最好的解决办法：在页面卸载之前通过onunload函数移除所有事件处理程序。所以事件委托
+
+
+
+
+
+
+
+
+</script>
+</html>
