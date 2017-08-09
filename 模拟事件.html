@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>模拟事件</title>
+</head>
+<body>
+	<form action="">
+		<input type="button" id="myBtn" value='Click'>
+		<br><br>
+		<input type="text" id="myTextBox">
+	</form>
+	<div id="myDiv">
+		<p>jkt</p>
+	</div>
+</body>
+<script>
+// DOM中的事件模拟
+  //键盘事件和鼠标事件都继承自UI事件。
+	// 模拟鼠标事件
+		// var btn=document.getElementById('myBtn');
+		// // 创建事件对象
+		// var event=document.createEvent("MouseEvents");   //dom3:MouseEvent
+		// // 初始化
+		// event.initMouseEvent("click",true,true,document.defaultView,0,0,0,0,0,false,false,false,false,0,null);
+		// // 触发事件
+		// btn.dispatchEvent(event);
+	// 模拟键盘事件
+		// DOM3中：
+		// var textbox=document.getElementById('myTextBox'),
+		// event;
+		// //以DOM3级方式创建事件对象
+		// 	//先检测浏览器是否支持DOM3级事件
+		// 	if(document.implementation.hasFeature("KeybordEvents","3.0")){
+		// 		event=document.createEvent("KeybordEvents");
+		// 		// dom3级不提倡用keypress事件
+		// 		event.initKeyboardEvent("keydown",true,true,document.defaultView,"a",0,"shift",0);
+		// 	}
+		// 	// 触发事件
+		// 	textbox.dispatchEvent(event);
+		// 	
+		// 在火狐中
+		// var textbox=document.getElementById('myTextBox');
+		// var event=document.createEvent("KeyEvents");   
+		// event.initKeyEvent("keypress",true,true,document.defaultView,false,false,
+		// 	false,false,65,65);
+		// textbox.dispatchEvent(event);
+		// 
+		// 在其他浏览器中：需先创建按一个通用的事件
+		// var textbox=document.getElementById('myTextBox');
+		// var event=document.createEvent("Events");
+		// event.initEvents(type,bubble,cancelable);
+		// event.view=document.defaultView;
+		// event.altKey=false;
+		// event.ctrlKey=false;
+		// event.shiftKey=false;
+		// event.metaKey=false;
+		// event.keyCode=65;
+		// event.charCode=65;
+		// textbox.dispatchEvent(event);
+	// 模拟变动事件
+		// var event=document.createEvent("MutationEvents");   //dom3:MutationEvent
+		// event.initMutationEvent("DOMNodeInserted",true,false,someNode,"","","",0);
+		// target.dispatchEvent(event);
+	// 模拟HTML事件：例 给目标上模拟focus事件
+		// var event=document.createEvent("HTMLEvents");   //没有对应的dom3事件
+		// event.initEvent("focus",true,false);
+		// target.dispatchEvent(event);
+	// 也可让开发人员创建新的自定义DOM事件
+		// 定义EventUtil这个对象
+		// var EventUtil={
+		// 	addHandler: function(element,type,handler){
+		// 		if(element.addEventListener){
+		// 			element.addEventListener(type,handler,false);
+		// 		}else if(element.attachEvent){
+		// 			element.attachEvent("on"+type,handler);
+		// 		}else{
+		// 			elment["on"+type]=handler;
+		// 		}
+		// 	},
+		// 	removeHandler: function(element,type,handler){
+		// 		if(element.removeEventListener){
+		// 			element.removeEventListener(type,handler,false);
+		// 		}else if(element.detachEvent){
+		// 			element.detachEvent("on"+type,handler);
+		// 		}else{
+		// 			elment["on"+type]=null;
+		// 		}
+		// 	},
+			
+		// };
+		// // EventUtil这个对象结束
+		// var div=document.getElementById('myDiv'),
+		// event;
+
+		// EventUtil.addHandler(div,"myevent",function(event){
+		// 	alert("DIV:"+event.detail);
+		// });
+		// EventUtil.addHandler(document,"myevent",function(event){
+		// 	alert("DOCUMENT:"+event.detail);
+		// });
+
+		// event=document.createEvent('CustomEvent');
+		// // 再添加一个自定义事件
+		// event.initCustomEvent("myevent",true,false,"hello world");
+		// div.dispatchEvent(event);
+	// IE中的事件模拟
+		var btn=document.getElementById('myBtn');
+		// 创建事件对象
+		var event=document.createEventObject();   //不接受参数
+		// 初始化事件对象：可随意添加属性，不会有任何限制
+		event.screenX=100;
+		event.screenY=0;
+		event.clientX=0;
+		event.clientY=0;
+		event.altKey=false;
+		event.ctrlKey=false;
+		event.shiftKey=false;
+		event.button=0;
+		// 触发事件
+		btn.fireEvent("onclick",event);   //该方法自动为event对象添加type和srcElement属性
+
+		// 同理来模拟触发keypress事件
+		var textbox=document.getElementById('myTextBox');
+		// 创建事件对象
+		var event=document.createEventObject(); 
+		 //手动添加属性 
+		event.altKey=false;
+		event.ctrlKey=false;
+		event.shiftKey=false;
+		event.keyCode=65;
+		// 触发事件
+		textbox.fireEvent("onkeypress",event);
+</script>
+</html>
