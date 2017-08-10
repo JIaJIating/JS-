@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>canvas</title>
+    <style>
+	canvas{
+		border: 1px solid orange;
+	}
+    </style>
+</head>
+<body>
+	<canvas width="500" height="400" id="myCanvas">this is a drawing</canvas>
+	<br>
+	<img src="1.png" alt="">
+</body>
+<script>
+// 变换
+	// translate(x,y):将坐标原点移动到（x,y）
+		// 例子：把原点变换到表盘中心，那绘制表针就容易的多
+		// 原点没有变换时：
+		// var drawing=document.getElementById('myCanvas');
+		// // 浏览器是否支持<canvas>元素
+		// if(drawing.getContext){
+		// 	// 取得绘图上下文对象的引用
+		// 	var context=drawing.getContext("2d");
+		// 	// 开始路径
+		// 	context.beginPath();
+		// 	// 绘制外圆:false表示顺时针
+		// 	context.arc(100,100,99,0,2*Math.PI,false);
+		// 	// 绘制内圆
+		// 	context.moveTo(194,100);  //将绘图游标移动到（194,100）
+		// 	context.arc(100,100,94,0,2*Math.PI,false);
+		// 	// 绘制分针
+		// 	context.moveTo(100,100);
+		// 	context.lineTo(100,15);
+		// 	// 绘制时针
+		// 	context.moveTo(100,100);
+		// 	context.lineTo(35,100);
+		// 	// 描边路径
+		// 	context.stroke();
+		// }
+		// 原点变换后：表针绘制
+		// var drawing=document.getElementById('myCanvas');
+		// if(drawing.getContext){
+		// 	var context=drawing.getContext("2d");
+		// 	context.beginPath();
+		// 	context.arc(100,100,99,0,2*Math.PI,false);
+		// 	context.moveTo(194,100);  //将绘图游标移动到（194,100）
+		// 	context.arc(100,100,94,0,2*Math.PI,false);
+		// 	// 变换原点
+		// 	context.translate(100,100);
+		// 	context.moveTo(0,0);
+		// 	context.lineTo(0,-85);
+		// 	context.moveTo(0,0);
+		// 	context.lineTo(-65,0);
+		// 	context.stroke();
+		// }
+	// rotate(angle)围绕原点旋转angle角度
+		// var drawing=document.getElementById('myCanvas');
+		// if(drawing.getContext){
+		// 	var context=drawing.getContext("2d");
+		// 	context.beginPath();
+		// 	context.arc(100,100,99,0,2*Math.PI,false);
+		// 	context.moveTo(194,100);  //将绘图游标移动到（194,100）
+		// 	context.arc(100,100,94,0,2*Math.PI,false);
+		// 	// 变换原点
+		// 	context.translate(100,100);
+		// 	// 旋转表针：向右旋转（放到73行后面无效）
+		// 	context.rotate(1);
+		// 	// 绘制表针
+		// 	context.moveTo(0,0);
+		// 	context.lineTo(0,-85);
+		// 	context.moveTo(0,0);
+		// 	context.lineTo(-65,0);
+		// 	context.stroke();
+		// }
+	// save()：保存的只是对绘图上下文的设置和变换，不保存绘图上下文的内容、
+	// restore()
+		// var drawing=document.getElementById('myCanvas');
+		// if(drawing.getContext){
+		// 	var context=drawing.getContext("2d");
+		// 	context.fillStyle="red";   
+		// 	context.save();    //保存上下文状态
+		// 	context.fillStyle="green";
+		// 	context.translate(100,100);
+		// 	context.save();   //再保存
+		// 	context.fillStyle="blue";
+		// 	context.fillRect(0,0,100,200);   //从点(100,100)开始绘制蓝色矩形
+
+		// 	context.restore();       //fillstyle又变回了绿色,但变换坐标原点还起作用
+		// 	context.fillRect(10,10,100,200);   //从点(110,110)开始绘制矩形为绿色
+
+		// 	context.restore();        //坐标原点变换被取消了,且fillstyle变回了红色
+		// 	context.fillRect(0,0,100,100);  //从点(0,0)开始绘制矩形为红色
+
+		// }
+// 绘制图像:drawImage()方法，根据参数的不同组分为三种
+	// 一、最终传入一个HTML<img>元素，以及绘制该图像的起点坐标
+		// var drawing=document.getElementById('myCanvas');
+		// if(drawing.getContext){
+		// 	var context=drawing.getContext("2d");
+		// 	var image=document.images[0];
+		// 	context.drawImage(image,10,10);
+		// }
+	// 二、改变绘制后图像大小，再传入两个参数，表示目标宽和高
+		// var drawing=document.getElementById('myCanvas');
+		// if(drawing.getContext){
+		// 	var context=drawing.getContext("2d");
+		// 	var image=document.images[0];
+		// 	context.drawImage(image,10,10,30,30);
+		// }
+	// 三、把图像中某个区域绘制到上下文中，共需传入9个参数：要绘制的图像、源图像的坐标x和y、源图像的宽高、目标图像的坐标x和y、目标图像的宽高
+		var drawing=document.getElementById('myCanvas');
+		if(drawing.getContext){
+			var context=drawing.getContext("2d");
+			var image=document.images[0];
+			context.drawImage(image,0,30,45,55,100,100,50,70);
+		}
+	// 也可以传入另一个<canvas>元素作为其第一个参数，把另一个画布的内容绘制到当前画布上
+	// 图像不能来自其他域，不然对操作的结果调用toDataURL()方法会抛出错误，认为当前上下文不干净
+	// 注意：toDataURL()方法是Canvas对象的方法，不是上下文的方法，该方法可以导出在<canvas>元素上绘制的图像
+		// var drawing=document.getElementById('myCanvas');
+		// if(drawing.getContext){
+		// 	// 取得图像数据URL
+		// 	var imageURL=drawing.toDataURL("image/png");
+		// 	// 显示图像
+		// 	var image=document.createElement("img");
+		// 	image.src=imageURL;
+		// 	document.body.appendChild(image);
+		// }
+</script>
+</html>
