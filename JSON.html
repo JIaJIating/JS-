@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>JSON</title>
+</head>
+<body>
+
+</body>
+<script>
+// 一、语法
+	// 1.简单值
+	// 5
+	// 这就是JSON表示数值5的方式。下面是JSON表示字符串的方式：
+	// “Hello World!”
+	// 与js字符串最大区别在于：JSON字符串必须使用双引号
+	// 布尔值和null也是有效的JSON形式。
+
+	// 2.JSON对象:与javascript的对象字面量相比 没有声明变量，没有末尾分号
+	// {
+	// 	"name": "jkt",                //属性必须加双引号
+	// 	"age": 20
+	// }
+	// 属性值也可以是复杂类型值，如下在对象中嵌套对象
+	// {
+	// 	"name": "jkt",
+	// 	"age": 20,
+	// 	"school": {
+	// 		"name": "lele",
+	// 		"location": "xian"
+	// 	}
+	// }
+	// 在顶级对象中嵌入了“school”信息，虽然有两个“name”属性，但由于他们分别属于不同的对象，所以没问题。但同一个对象中不能出现两个同名属性。
+	
+	// 3.JSON数组
+	// [
+	// 	{
+	// 		"title": "HTML",
+	// 		"authors": [
+	// 			"Nicholas C. Zakas"
+	// 		],
+	// 		"edition": 3,
+	// 		"year": 2011
+	// 	},
+	// 	{
+	// 		"title": "CSS",
+	// 		"authors": [
+	// 			"Nicholas C. Zakas"
+	// 		],
+	// 		"edition": 2,
+	// 		"year": 2009
+	// 	},
+	// 	{
+	// 		"title": "javascript",
+	// 		"authors": [
+	// 			"Nicholas c. Zakas"
+	// 		],
+	// 		"edition": 2,
+	// 		"year": 2008
+	// 	},
+	// 	{
+	// 		"title": "Ajax",
+	// 		"authors": [
+	// 			"Nicholas c. Zakas"
+	// 		],
+	// 		"edition": 1,
+	// 		"year": 2007
+	// 	},{
+	// 		"title": "Jquery",
+	// 		"authors": [
+	// 			"Nicholas c. Zakas"
+	// 		],
+	// 		"edition": 1,
+	// 		"year": 2006
+	// 	}
+	// ]
+ 
+// 二、序列化:stringify()方法默认情况下输出JSON字符串不包含任何空格字符或缩进
+	// var book={
+	// 	title: "javascript",
+	// 	authors: [
+	// 		"jkt"
+	// 	],
+	// 	edition: 3,
+	// 	year: 2009
+	// };
+	// var jsonText=JSON.stringify(book);
+	// var booCopy=JSON.parse(jsonText);  也可以这样解析
+	// 
+	// 第二个参数是数组 
+	// var jsonText=JSON.stringify(book,["title","edition"]);
+	// 
+	// 第二个参数是函数。函数接收两个参数：属性（键）名、属性值
+	// 属性名只能是字符串，如果值不是键值对结构的值，键名可以是空字符串
+	// 函数返回的值就是相应键的值，但如果函数返回的是undefined，那相应的属性会被忽略。具体实例如下：
+	// var book={
+	// 	title: "javascript",
+	// 	authors: [
+	// 		"jkt C. Zakas"
+	// 	],
+	// 	edition: 3,
+	// 	year: 2009
+	// };
+	// var jsonText=JSON.stringify(book,function(key,value){
+	//      switch(key){
+	//      	// 如果键为"authors"，就把数连接成一个字符串
+	//      	case "authors":
+	//      		return value.join(",");
+	//      		break;
+	//      	// 如果键为"edition"，就值设置为5000
+	//      	case "edition":
+	//      		return 5000;
+	//      		break;
+	//      	// 如果键为"year"，就通过返回undefined删除该属性
+	//      	case "year":
+	//      		return undefined;
+	//      		break;
+	//      	default:
+	//      		return value;
+	//      }
+	//     });
+	// alert(jsonText);
+	// 
+	// 第三个参数用于控制结果中的缩进和空白字符
+	// 如果该参数是一个数值，表示每个级别缩进的空格数
+		// 例子：
+		// var jsonText=JSON.stringify(book,null,4);
+		// alert(jsonText);
+		// JSON.stringify()在结果字符中插入了换行符来提高阅读性。
+		// 所以只要传入例如有效的控制缩进的参数值，结果字符串中就回包含换行符
+		// 最大缩进空格数为10，大于10会自动转换为10
+	// 如果该参数是一个字符串，则这个字符串会被用作缩进符。可以将缩进符设置为制表符或者如下例所示：
+		// var jsonText=JSON.stringify(book,null,"--");
+		// alert(jsonText);
+	// 3.toJSON（）方法：
+     // JSON.stringify()还是不能满足对某些对象进行自定义序列化的需求。所以，给对象定义toJSON（）方法，返回其自身的JSON数据个数。
+     // 可以为任何对象添加toJSON()方法，例如：
+		// var book={
+		// 	title: "javascript",
+		// 	authors: [
+		// 		"jkt"
+		// 	],
+		// 	edition: 3,
+		// 	year: 2009,
+		// 	toJSON: function(){
+		// 		return this.title;
+		// 	}
+		// };
+		// var jsonText=JSON.stringify(book);
+		// alert(jsonText);   //  "javascript"
+	//注意：可以让toJSON（）返回任何值，它都能正常工作。
+	// 返回undefined，如果此时包含它的对象嵌入在另一个对象中，会导致他的值变成null，如果它的对象是顶级对象，结果就是undefined。
+// 三、解析选项
+	//JSON.parse（）方法也可以再接收一个参数，该参数是一个函数（还原函数），将在每个键值对上调用。与JSON.stringify()接收的函数（过滤函数）的签名是相通的——都接受两个参数：键、值，且都需要返回一个值。
+	//如果还原函数返回undefined，则表示从结果中删除相应的键；如果返回其他值，则将该值插入到结果中
+	var book={
+			title: "javascript",
+			authors: [
+				"jkt"
+			],
+			edition: 3,
+			year: 2009,
+			//新增的releaseDate属性保存着一个Date对象，该对象经过序列化后变成了有效的JSON字符串，又经过解析在bookCopy中还原为Date对象
+			releaseDate: new Date(2011,11,1)
+		};
+		var jsonText=JSON.stringify(book);
+		var bookCopy=JSON.parse(jsonText,function(key,value){
+		// 还原函数在遇到"releaseDate"键时，会基于相应值创建一个新的Date对象
+		// 保存在bookCopy.releaseDate中
+			if (key=="releaseDate"){
+				return new Date(value);
+			}else{
+				return value;
+			}
+		});
+		// 所以可以调用getFullYear()方法
+		alert(bookCopy.releaseDate.getFullYear());  //2011
+</script>
+</html>
