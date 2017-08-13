@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>跨域</title>
+</head>
+<body>
+<p>跨域的学习</p>
+</body>
+<script>
+// 图像Ping:常用于跟踪用户点击页面或动态广告曝光次数
+// 缺点:只能发送GET请求、无法访问服务器的响应文本,(只能用于浏览器和服务器间的单向通信)
+	// var img=new Image();
+	// img.onload=img.onerror=function(){
+	// 	alert("Done!");
+	// };
+	// 请求从设置src属性那一刻开始，下例在请求中发了一个name参数
+	// img.src="http://www.example.com/test?name=jkt";
+// JSONP:被包含在函数中调用的JSON,通过动态<script>元素来使用的
+	// callback({"name":'jkt',"age",20});
+	// JSONP由回调函数(当响应到来时应该在页面中调用的函数)和数据(传入回调函数中的JSON数据)组成。
+	// 回调函数的名字一般是在请求中指定的
+	// http://freegeoip.net/json?callback=handleResponse
+	// 例子：通过查询地理定位服务来显示你的IP地址和位置信息
+	function handleResponse(){
+		alert("You'are at IP address "+response.ip+",which is in "+response.city+","+response.region_name);
+	}
+	var script=document.createElement('script');
+	script.src="http://www.baidu.com?callback=handleResponse";
+	document.body.insertBefore(script,document.body.firstChild);
+	// 缺点：JSONP是从其他域中加载代码执行，如果其他域不安全，可能会在响应中夹带一些恶意代码;其次，确定JSONP请求是否失败并不容易
+	// 有点：能够直接访问响应文本，支持浏览器与服务器之间的双向通信
+// CORS
+	// simple Requests:使用标准的XHR对象并在open()方法中传入绝对URL即可
+	// 如果一个请求没有包含任何自定义请求头，而且它所使用HTTP动词是GET，HEAD或POST之一，那么它就是一个Simple Request。但是在使用POST作为请求的动词时，该请求的Content-Type需要是application/x-www-form-urlencoded，multipart/form-data或text/plain之一。
+	 function retrieveData() {
+          var request = new XMLHttpRequest();
+          request.open('GET', 'http://public-data.com/someData', true);
+          request.onreadystatechange = handler;
+          request.send();
+     }
+     // 本地资源：相对URL  远程资源：绝对URL
+     // 
+     // Preflighted Request:如果一个请求包含了任何自定义请求头，或者它所使用的HTTP动词是GET，HEAD或POST之外的任何一个动词，那么它就是一个Preflighted Request。如果POST请求的Content-Type并不是application/x-www-form-urlencoded，multipart/form-data或text/plain之一，那么其也是Preflighted Request。
+    function sendData() {
+    var request = new XMLHttpRequest(),
+        payload = ......;
+    request.open('POST', 'http://public-data.com/someData', true);
+    request.setRequestHeader('X-CUSTOM-HEADER', 'custom_header_value');
+    request.onreadystatechange = handler;
+    request.send(payload);
+    }
+
+    // Requests with Credential:一个跨域请求包含了当前页面的用户凭证
+    // 在发送请求的时候，需要将用户凭证包含在请求中(59行)
+    function retrieveData() {
+ 	var request = new XMLHttpRequest();
+	request.open('GET', 'http://public-data.com/someData', true);
+	request.withCredentials = true;
+	request.onreadystatechange = handler;
+	request.send();
+	}
+	// 在服务端的响应中，其将拥有一个额外的Access-Control-Allow-Credentials响应头：
+	 // HTTP/1.1 200 OK
+	 // Access-Control-Allow-Origin: http://ambergarden.com
+	 // Content-Type: application/xml
+	 // ......
+	 
+	 // [Payload Here]
+
+</script>
+</html>
