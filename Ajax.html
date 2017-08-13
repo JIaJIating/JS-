@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Ajax</title>
+</head>
+<body>
+	<form action="postexample.php" id="user-info">
+		<p>username:
+		<input type="text">
+		</p>
+		<p>password:
+		<input type="password">
+		</p>
+		<p>
+			<input type="submit">
+		</p>
+	</form>
+</body>
+<script>
+	var request;
+	if(window.XMLHttpRequest){
+		request=new XMLHttpRequest();
+	}else{
+		request=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	//同步
+	// request.open("get","example.php",false);   
+	// request.send(null);
+	// if((request.status >= 200 && request.status<300)||request.status==304){
+	// 	alert(request.responseText);
+	// }else{
+	// 	alert("Request was unsuccessful: "+request.status);
+	// }
+	// res=request.responseText;
+	// alert(res);
+	// 
+	// 异步
+	// request.open('GET',"index.php",true);   //默认也是true
+	// request.onreadystatechange=function(){
+	// 	if(request.readystate==4 && request.status==200){
+	// 		alert(request.responseText);
+	// 	}else{
+	// 		alert("Request was unsuccessful: "+request.status);
+	// 	}
+	// };
+	// request.send(null);
+	
+	// HTTP头部信息
+	// var request;
+	// if(window.XMLHttpRequest){
+	// 	request=new XMLHttpRequest();
+	// }else{
+	// 	request=new ActiveXObject("Microsoft.XMLHTTP");
+	// }
+	// request.onreadystatechange=function(){
+	// 	if(readystate==4 && request.status==200){
+	// 		alert(request.responseText);
+	// 	}else{
+	// 		alert("Request was unsuccessful: "+request.status);
+	// 	}
+	// };
+	// request.open('GET',"index.php",true); 
+	// // 必须写在open和send中间
+	// request.setRequestHeader("MyHeader","MyValue");
+	// request.send(null);
+
+	// 调用XHR对象的getResponseHeader()方法并传入头部字段名称，可以取得相应的响应头部信息。
+	// 调用getAllResponseHeaders()方法则可以取得一个包含所有头部信息的长字符串。
+	// 例如：
+	// var header=request.getResponseHeader("MyHeader");
+	// var allHeader=request.getAllResponseHeaders();
+
+	// GET请求:向服务器查询某些信息。可将查询字符串参数追加到URL末尾
+	// request.open("get","index.php?name1=value1&name2=value2",true);
+	// 下面的函数可以辅助向现有的URL末尾添加查询字符串参数:
+	// function addURLParam(url,name,value){
+	// 	// 检查url是否包含？。如果没有末尾加？，如果有加一个和号（&）
+	// 	url += (url.indexOf("?")==-1 ? "?" : "&");
+	// 	url ++ encodeURLComponent(name)+ "=" +encodeURLComponent(value);
+	// 	return url;
+	// }
+	// // 使用上面函数来构建请求URL的示例
+	// var url ="index.php";
+	// // 添加参数
+	// url=addURLParam(url,"name","jkt");
+	// url=addURLParam(url,"book","Javascript");
+	// // 初始化请求
+	// request.open("get",url,false);
+	
+	// POST请求:常用于向服务器发送应该被保存的数据。把数据作为请求的主体提交
+	// request.open("post","index.php",true);
+	// 发送POST请求的第二步就是向send（）方法中传入一些数据。可以传入XML DOM文档，传入的文档经序列化之后将作为请求主体被提交到服务器；也可传入任何想发送到服务器的字符串
+	// 下面函数可以将ID为"user-info"表单中的数据序列化之后发送给服务器
+	// "postexample.php"示例文件通过$_POST取得提交的数据
+	// 如果不设置Content-Type头部信息，那发送给服务器的数据不会出现在$_POST超级全局变量中
+	 
+	function submitData(){
+		var request;
+		if(window.XMLHttpRequest){
+			request=new XMLHttpRequest;
+		}else{
+			request=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		request.onreadystatechange=function(){
+			if(readystate==4 && request.status==200){
+				alert(request.responseText);
+			}else{
+				alert("Request was unsuccessful: "+request.status);
+			}
+		};
+	request.open("post","postexample.php",true);
+		// 使用XHR对象来模仿表单提交：
+		// 首先设置Content-Type头部信息为表单提交时的内容类型
+	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		// 再以适当格式创建字符串
+	var form=document.getElementById('user-info');
+		// 序列化函数serialize()须提前定义
+	request.send(serialize(form));
+	}
+
+</script>
+</html>
