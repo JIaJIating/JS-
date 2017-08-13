@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Comet</title>
+</head>
+<body>
+
+</body>
+<script>
+// 流不同于轮询，它在页面的整个生命周期内只使用一个HTTP 连接。浏览器向服务器发送一个请求，而服务器保持连接打开，然后周期性的向浏览器发送数据.
+// 使用XHR对象实现HTTP流的典型代码如下：通过侦听readystatechange事件及检测readyState的值是否为3，当变为3时，responseText属性中就会保存接收到的所有数据
+	// function createStreamingClient(url,progress,finished){
+	// 	var request,
+	// 		received=0;
+	// 	if(window.XMLHttpRequest){
+	// 		request=new XMLHttpRequest;
+	// 	}else{
+	// 		request=new ActiveXObject("Microsoft.XMLHTTP");
+	// 	}
+	// 	request.open("get",url,true);
+	// 	request.onreadystatechange=function(){
+	// 		var result;
+	// 		if(readyState==3){
+	// 			// 只取得最新数据并调整计数器
+	// 			result=request.responseText.subString(received);
+	// 			result+=result.length;
+	// 			// 调用progress回调函数
+	// 			progress(result);
+	// 		}else if(readyState==4){
+	// 			finished(request.responseText);
+	// 		}
+	// 	};
+	// 	request.send(null);
+	// 	return request;
+	// }
+	// var client=createStreamingClient("streaming.php",function(data){
+	// 	alert("Received: "+data);
+	// },function(data){
+	// 	alert("Done!");
+	// });
+// Comet两个接口
+	// SSE(服务器发送事件)是只围绕只读Comet交互推出的API或者模式。
+	// SSE API用于创建到服务器端的单向连接，服务器通过这个连接可以发送任意数量的数据。
+	//服务器响应的MIME类型必须是text/event-stream,而且是浏览器中的JavaScript API 能解析格式输出。
+	// SSE支持短轮询、长轮询和HTTP流，而且能在断开连接时自动确定何时重新连接。
+	// 预订新的事件流，首先创建一个新的EventSource对象，并传进一个入口点：
+	// var source=new EventSource("myevents.php");//URL必须与创建对象的页面同源
+	// source.onmessage=function(event){
+	// 	// 服务器发回的数据以字符串形式保存在event.data中
+	// 	var data=event.data;
+	// 	// 处理数据
+	// }；
+	// // 强制立即断开连接并且不再重新连接
+	// // (默认情况下EventSource对象会保持与服务器的活动链接，如果断开会重新连接)
+	// source.close();
+
+// Web Sockets API
+	// 创建一个Web Socket：先实例一个WebSocket对象并传入要连接的URL
+	var socket=new WebSocket("ws://www.baidu.com/server.php");
+//必须传入绝对URL,同源策略对WebSockets不适用，因此通过他可以打开任何站点的连接
+	// socket.close();
+	// WebSocket没有onreadystatechange事件，但有其他事件对应不同的状态。
+	// readyState的值永远从0开始
+	// 调用close()后，readyState的值立即变为2(正在关闭)，关闭连接后就变成3
+	// 发送和接收数据
+	socket.send("Hello world!");//向服务器发送数据用send()，并传入任意字符串
+	// 对于复杂的数据结构，在通过连接发送前要进行序列化
+	// var message={
+	// 	time: new Date(),
+	// 	text: "Hello world!",
+	// 	clientId: "asdfg334rew"
+	// };
+	// socket.send(JSON.stringify(message));
+	// 当服务器向客户端发来消息时，WebSocket对象会触发message事件
+	socket.onmessage=function(event){
+		var data=event.data;
+		// 处理数据
+	}
+	// 其他事件
+	var socket=new WebSocket("ws://www.example.com/server.php");
+	// open在成功建立连接时触发
+	socket.onopen=function(){
+		alert("Connection established.");
+	};
+	// error在发生错误时触发，连接不能继续
+	socket.onerror=function(){
+		alert("Connection error");
+	};
+	// close在连接关闭时触发
+	socket.onclose=function(){
+		alert("Connection closed");
+	};
+	// 只有close事件的event对象有额外的信息。三个额外的属性：wasClean code reason
+	// socket.onclose=function(event){
+	// 	console.log("Was clean? "+event.wasClean+ "Code= "+event.code +"Reason= "+event.reason);
+	// };
+</script>
+</html>
