@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Ajax</title>
+</head>
+<body>
+	<!-- <form action="postexample" id="user-info">
+		<p>username:
+		<input type="text">
+		</p>
+		<p>password:
+		<input type="password">
+		</p>
+		<p>
+			<input type="submit" value="点我提交">
+		</p>
+	</form> -->
+</body>
+<script>
+// 一、FormData:为序列化表单及创建与表单格式相同的数据(用于XHR传输)提供了便利
+	// 	创建一个FormData对象，并添加一些数据
+		// 	var data=new FormData();
+		// 	data.append("name","jkt");  //可以是任意多个键值对
+	// 	也可通过向FormData()构造函数中传入表单元素
+		// 	var data=new FormData(document.forms[0]);
+	// 	实例：
+		// var request;
+		// if(window.XMLHttpRequest){
+		// 	request=new XMLHttpRequest;
+		// }else{
+		// 	request=new ActiveXObject("Microsoft.XMLHTTP");
+		// }
+		// request.onreadystatechange=function(){
+		// 	if(readystate==4 && request.status==200){
+		// 		alert(request.responseText);
+		// 	}else{
+		// 		alert("Response was unsuccessful: "+request.status);
+		// 	}
+		// };
+		// request.open("post","postexample.php",true);
+		// var form=document.getElementById('user-info');
+		// request.sen(new FormData(form));
+		 
+// 二、超时设定：IE8为XHR对象添加了一个timeout属性，表示请求在等待响应多少毫秒后就会终止。
+	// var xhr=createXHR();
+	// xhr.onreadystatechange=function(){
+	// 	if(xhr.readystate==4){
+	// 		try{
+	// 			if((xhr.status>=200 && xhr.status<300)|| xhr.status==304){
+	// 				alert(xhr.responseText);
+	// 			}else{
+	// 				alert("Response was unsuccessful: "+request.status);
+	// 			}
+	// 		}catch(ex){
+	// 			// 假设由ontimeout事件处理程序处理
+	// 		}
+	// 	}
+	// };
+	// xhr.open("post","timeout.php",true);
+	// // 将超时设置为1秒钟 ，仅适用于IE8
+	// xhr.timeout=1000;
+	// xhr.ontimeout=function(){
+	// 	alert("Request did not return in a second.");
+	// };
+	// xhr.send(null);
+	// 为了避免超时终止请求后再访问status属性，将检查status属性的语句封装在try-catch语句
+三、overrideMimeType()方法，用于重写XHR响应的MIME类型
+该方法保证把响应当作XML而非纯文本来处理，必须在send()前调用。
+	// var xhr=createXHR();
+	// xhr.open("get","text.php",true);
+	// xhr.overrideMimeType("text/xml");
+	// xhr.send(null); 
+// 进度事件：
+	// 例子：为用户创建进度指示器（onprogress函数必须在open方法前添加）
+	var request;
+	if(window.XMLHttpRequest){
+		request=new XMLHttpRequest;
+	}else{
+		request=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	request.onload=function(event){
+		if(readystate==4 && request.status==200){
+			alert(request.responseText);
+		}else{
+			alert("Request was unsuccessful: "+request.status);
+		}
+	};
+	request.onprogress=function(event){
+		var divStatus=document.getElementById('status');
+		if(event.lengthComputable){
+			divStatus.innerHTML="Received "+event.position+" of "+event.totalSize+" bytes";
+		}
+	};
+	request.open("get","altevent.php",true);
+	request.send(null);
+</script>
+</html>
